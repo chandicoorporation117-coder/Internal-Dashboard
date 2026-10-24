@@ -167,7 +167,8 @@ select { min-width: 180px; }
   height: 34px; border: 0; background: transparent; color: var(--ink);
   border-radius: 0; cursor: pointer;
 }
-.day:hover:not(:disabled) { background: var(--wash); border-radius: 8px; }
+/* Only days outside the selection get the hover wash; it would hide the range and endpoint colours. */
+.day:hover:not(:disabled):not(.in) { background: var(--wash); border-radius: 8px; }
 .day:disabled { color: var(--axis); text-decoration: line-through; cursor: not-allowed; }
 .day.in { background: color-mix(in srgb, var(--series-1) 16%, transparent); }
 .day.start, .day.end { background: var(--series-1); color: #fff; }
