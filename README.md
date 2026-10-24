@@ -40,7 +40,9 @@ gviz/CSV export URLs: this is police crime data.
 3. **Project Settings** (gear icon) → tick *Show "appsscript.json" manifest file in editor*, then
    replace `appsscript.json` with [`apps-script/appsscript.json`](apps-script/appsscript.json).
 4. Check the `CONFIG` block at the top of `Code.gs` (layout, date order; see *Sheet layouts* below).
-5. Pick `readSpreadsheet_` in the function list and press **Run** once to grant access. Then open
+5. Pick `getDailyData` in the function list and press **Run** once to grant access. Functions
+   ending in `_` are private and don't appear in that list. If Google says it *hasn't verified this
+   app*, choose **Advanced → Go to (project name)**; that's normal for your own script. Then open
    **Executions** and check that it finished without errors.
 
 ### 2. Deploy with restricted access
