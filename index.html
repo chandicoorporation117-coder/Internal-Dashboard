@@ -15,10 +15,29 @@
       <div class="brand-mark" aria-hidden="true">20</div>
       <div>
         <h1>Crime Diary Dashboard</h1>
-        <p class="sub">Punjab · 20 crime heads · Week <span id="week-label"></span></p>
+        <p class="sub">Punjab · 20 crime heads · <span id="range-sub">Loading…</span></p>
       </div>
     </div>
     <div class="controls">
+      <div class="field range-picker">
+        <span id="range-caption">Dates</span>
+        <button id="range-btn" class="range-btn" type="button" aria-haspopup="dialog" aria-expanded="false" aria-labelledby="range-caption range-label">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M7 2h2v2h6V2h2v2h3a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3V2zm12 8H5v9h14v-9zM5 6v2h14V6H5z"/></svg>
+          <span id="range-label">…</span>
+        </button>
+        <div id="range-pop" class="range-pop" role="dialog" aria-label="Choose a date range" hidden>
+          <div class="presets" id="range-presets"></div>
+          <div class="cal">
+            <div class="cal-head">
+              <button id="cal-prev" class="icon-btn" type="button" aria-label="Previous month">‹</button>
+              <strong id="cal-title"></strong>
+              <button id="cal-next" class="icon-btn" type="button" aria-label="Next month">›</button>
+            </div>
+            <div class="cal-grid" id="cal-grid"></div>
+            <p class="cal-hint" id="cal-hint" aria-live="polite"></p>
+          </div>
+        </div>
+      </div>
       <label class="field">
         <span>Region</span>
         <select id="region-filter"><option value="">All regions</option></select>
@@ -29,47 +48,42 @@
     </div>
   </header>
 
-  <p class="notice">
-    <span class="pill pill-real">Real</span> district &amp; crime-head totals from <code id="source-file"></code>.
-    <span class="pill pill-mock">Mock</span> daily split, previous weeks, case progress and activity feed are generated sample data.
-  </p>
+  <div id="data-banner" class="banner" role="status" hidden></div>
+  <p class="notice" id="notice"></p>
 
   <main class="grid">
     <section class="kpis" id="kpis" aria-label="Key metrics"></section>
 
     <article class="card span-8">
       <header class="card-head">
-        <h2>Cases by day</h2><span class="pill pill-mock">Mock split</span>
+        <h2>Cases by day</h2><span class="pill" data-src="data"></span>
       </header>
       <div class="legend group-legend"></div>
       <div class="chart h-280"><canvas id="daily-chart"></canvas></div>
     </article>
 
     <article class="card span-4">
-      <header class="card-head"><h2>Share by crime group</h2><span class="pill pill-real">Real</span></header>
+      <header class="card-head"><h2>Share by crime group</h2><span class="pill" data-src="data"></span></header>
       <div class="chart h-280"><canvas id="group-chart"></canvas></div>
     </article>
 
     <article class="card span-6">
-      <header class="card-head"><h2>Crime heads ranked</h2><span class="pill pill-real">Real</span></header>
+      <header class="card-head"><h2>Crime heads ranked</h2><span class="pill" data-src="data"></span></header>
       <div class="legend group-legend"></div>
       <div class="chart h-420"><canvas id="heads-chart"></canvas></div>
     </article>
 
     <article class="card span-6">
-      <header class="card-head"><h2>Top districts</h2><span class="pill pill-real">Real</span></header>
+      <header class="card-head"><h2>Top districts</h2><span class="pill" data-src="data"></span></header>
       <div class="legend group-legend"></div>
       <div class="chart h-420"><canvas id="district-chart"></canvas></div>
     </article>
 
     <article class="card span-8">
       <header class="card-head">
-        <h2>This week vs last week, by region</h2><span class="pill pill-mock">Last week mock</span>
+        <h2>This range vs previous range, by region</h2><span class="pill" data-src="data"></span>
       </header>
-      <div class="legend">
-        <span class="key"><i style="background:var(--series-1)"></i>This week</span>
-        <span class="key"><i style="background:var(--compare)"></i>Last week</span>
-      </div>
+      <div class="legend" id="compare-legend"></div>
       <div class="chart h-300"><canvas id="region-chart"></canvas></div>
     </article>
 
@@ -79,7 +93,7 @@
     </article>
 
     <article class="card span-5">
-      <header class="card-head"><h2>8-week trend</h2><span class="pill pill-mock">Weeks 1–7 mock</span></header>
+      <header class="card-head"><h2>Weekly trend</h2><span class="pill" data-src="data"></span></header>
       <div class="chart h-260"><canvas id="trend-chart"></canvas></div>
     </article>
 
@@ -90,7 +104,7 @@
 
     <article class="card span-8">
       <header class="card-head">
-        <h2>District × crime head</h2><span class="pill pill-real">Real</span>
+        <h2>District × crime head</h2><span class="pill" data-src="data"></span>
       </header>
       <div class="heatmap-wrap"><table class="heatmap" id="heatmap"></table></div>
       <div class="scale" aria-hidden="true"><span>0</span><div class="scale-bar"></div><span id="scale-max"></span></div>
@@ -102,9 +116,11 @@
     </article>
   </main>
 
-  <footer class="foot">Internal use only · Generated from the weekly 20-head crime diary</footer>
+  <footer class="foot">Internal use only · 20-head crime diary</footer>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <!-- Local, gitignored: assets/config.js (live sheet URL) and assets/data.js (weekly workbook). Either may be missing. -->
+  <script src="assets/config.js"></script>
   <script src="assets/data.js"></script>
   <script src="assets/app.js"></script>
 </body>

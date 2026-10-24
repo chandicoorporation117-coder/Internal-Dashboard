@@ -124,6 +124,73 @@ select { min-width: 180px; }
 .icon-btn { width: 36px; padding: 0; display: grid; place-items: center; cursor: pointer; }
 .icon-btn:hover, select:hover { background: var(--wash); }
 
+/* Date range picker */
+.range-picker { position: relative; }
+.range-btn {
+  font: inherit; color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--border); border-radius: 8px;
+  height: 36px; padding: 0 12px;
+  display: inline-flex; align-items: center; gap: 8px;
+  cursor: pointer; white-space: nowrap; min-width: 180px;
+}
+.range-btn:hover { background: var(--wash); }
+.range-btn:disabled { cursor: default; color: var(--ink-2); background: var(--surface); }
+.range-btn svg { color: var(--ink-2); flex: none; }
+.range-pop {
+  position: absolute; z-index: 20; top: calc(100% + 6px); right: 0;
+  display: flex; gap: 12px;
+  background: var(--surface); color: var(--ink);
+  border: 1px solid var(--border); border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+  padding: 12px;
+}
+.range-pop[hidden] { display: none; }
+.presets { display: flex; flex-direction: column; gap: 4px; min-width: 160px; }
+.presets button {
+  font: inherit; text-align: left; color: var(--ink);
+  background: transparent; border: 1px solid transparent; border-radius: 8px;
+  padding: 6px 10px; cursor: pointer;
+}
+.presets button small { display: block; font-size: 11px; color: var(--muted); }
+.presets button:hover:not(:disabled) { background: var(--wash); }
+.presets button.on { border-color: var(--series-1); }
+.presets button:disabled { color: var(--muted); cursor: not-allowed; }
+.cal { width: 252px; }
+.cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.cal-head .icon-btn { width: 30px; height: 30px; font-size: 18px; line-height: 1; }
+.cal-head .icon-btn:disabled { opacity: .35; cursor: default; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 36px); row-gap: 2px; }
+.cal-grid .dow { font-size: 11px; color: var(--muted); text-align: center; padding: 4px 0; }
+.day {
+  font: inherit; font-size: 13px; font-variant-numeric: tabular-nums;
+  height: 34px; border: 0; background: transparent; color: var(--ink);
+  border-radius: 0; cursor: pointer;
+}
+.day:hover:not(:disabled) { background: var(--wash); border-radius: 8px; }
+.day:disabled { color: var(--axis); text-decoration: line-through; cursor: not-allowed; }
+.day.in { background: color-mix(in srgb, var(--series-1) 16%, transparent); }
+.day.start, .day.end { background: var(--series-1); color: #fff; }
+.day.start { border-radius: 8px 0 0 8px; }
+.day.end { border-radius: 0 8px 8px 0; }
+.day.start.end { border-radius: 8px; }
+.day.start:disabled, .day.end:disabled { color: rgba(255, 255, 255, 0.6); }
+.day.today { box-shadow: inset 0 0 0 1px var(--axis); border-radius: 8px; }
+.day:focus-visible, .presets button:focus-visible, .range-btn:focus-visible { outline: 2px solid var(--series-1); outline-offset: 1px; }
+.cal-hint { margin: 8px 0 0; font-size: 12px; color: var(--ink-2); max-width: 252px; }
+
+/* Data-source banner */
+.banner {
+  margin: 4px max(24px, calc((100% - 1392px) / 2)) 12px; padding: 10px 14px;
+  border-radius: 10px; font-size: 13px; color: var(--ink);
+  border: 1px solid;
+}
+.banner[hidden] { display: none; }
+.banner strong { margin-right: 6px; }
+.banner-mock { border-color: var(--mock); background: color-mix(in srgb, var(--mock) 12%, var(--surface)); }
+.banner-warn { border-color: var(--series-4); background: color-mix(in srgb, var(--series-4) 14%, var(--surface)); }
+.key.muted { color: var(--muted); }
+
 .notice {
   max-width: 1440px; margin: 0 auto; padding: 0 24px 12px;
   color: var(--ink-2); font-size: 12px;
@@ -236,6 +303,10 @@ select { min-width: 180px; }
 }
 @media (max-width: 600px) {
   .topbar, .notice, .grid { padding-left: 16px; padding-right: 16px; }
+  .controls { flex-wrap: wrap; }
+  .range-pop { position: fixed; top: 12px; left: 16px; right: 16px; flex-direction: column; max-height: calc(100vh - 24px); overflow: auto; }
+  .presets { flex-direction: row; flex-wrap: wrap; }
+  .banner { margin-left: 16px; margin-right: 16px; }
   .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .kpi-value { font-size: 22px; }
   select { min-width: 140px; }
