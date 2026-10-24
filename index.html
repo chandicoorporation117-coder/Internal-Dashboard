@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Crime Diary Dashboard</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <script>
+    try { const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">20</div>
+      <div>
+        <h1>Crime Diary Dashboard</h1>
+        <p class="sub">Punjab · 20 crime heads · Week <span id="week-label"></span></p>
+      </div>
+    </div>
+    <div class="controls">
+      <label class="field">
+        <span>Region</span>
+        <select id="region-filter"><option value="">All regions</option></select>
+      </label>
+      <button id="theme-toggle" class="icon-btn" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.39 5.39 0 0 1-4.4 2.26 5.4 5.4 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <p class="notice">
+    <span class="pill pill-real">Real</span> district &amp; crime-head totals from <code id="source-file"></code>.
+    <span class="pill pill-mock">Mock</span> daily split, previous weeks, case progress and activity feed are generated sample data.
+  </p>
+
+  <main class="grid">
+    <section class="kpis" id="kpis" aria-label="Key metrics"></section>
+
+    <article class="card span-8">
+      <header class="card-head">
+        <h2>Cases by day</h2><span class="pill pill-mock">Mock split</span>
+      </header>
+      <div class="legend group-legend"></div>
+      <div class="chart h-280"><canvas id="daily-chart"></canvas></div>
+    </article>
+
+    <article class="card span-4">
+      <header class="card-head"><h2>Share by crime group</h2><span class="pill pill-real">Real</span></header>
+      <div class="chart h-280"><canvas id="group-chart"></canvas></div>
+    </article>
+
+    <article class="card span-6">
+      <header class="card-head"><h2>Crime heads ranked</h2><span class="pill pill-real">Real</span></header>
+      <div class="legend group-legend"></div>
+      <div class="chart h-420"><canvas id="heads-chart"></canvas></div>
+    </article>
+
+    <article class="card span-6">
+      <header class="card-head"><h2>Top districts</h2><span class="pill pill-real">Real</span></header>
+      <div class="legend group-legend"></div>
+      <div class="chart h-420"><canvas id="district-chart"></canvas></div>
+    </article>
+
+    <article class="card span-8">
+      <header class="card-head">
+        <h2>This week vs last week, by region</h2><span class="pill pill-mock">Last week mock</span>
+      </header>
+      <div class="legend">
+        <span class="key"><i style="background:var(--series-1)"></i>This week</span>
+        <span class="key"><i style="background:var(--compare)"></i>Last week</span>
+      </div>
+      <div class="chart h-300"><canvas id="region-chart"></canvas></div>
+    </article>
+
+    <article class="card span-4">
+      <header class="card-head"><h2>Case progress</h2><span class="pill pill-mock">Mock</span></header>
+      <div class="chart h-300"><canvas id="funnel-chart"></canvas></div>
+    </article>
+
+    <article class="card span-5">
+      <header class="card-head"><h2>8-week trend</h2><span class="pill pill-mock">Weeks 1–7 mock</span></header>
+      <div class="chart h-260"><canvas id="trend-chart"></canvas></div>
+    </article>
+
+    <article class="card span-7">
+      <header class="card-head"><h2>Insights</h2></header>
+      <ul class="insights" id="insights"></ul>
+    </article>
+
+    <article class="card span-8">
+      <header class="card-head">
+        <h2>District × crime head</h2><span class="pill pill-real">Real</span>
+      </header>
+      <div class="heatmap-wrap"><table class="heatmap" id="heatmap"></table></div>
+      <div class="scale" aria-hidden="true"><span>0</span><div class="scale-bar"></div><span id="scale-max"></span></div>
+    </article>
+
+    <article class="card span-4">
+      <header class="card-head"><h2>Activity</h2><span class="pill pill-mock">Mock</span></header>
+      <ol class="feed" id="feed"></ol>
+    </article>
+  </main>
+
+  <footer class="foot">Internal use only · Generated from the weekly 20-head crime diary</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="assets/data.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
